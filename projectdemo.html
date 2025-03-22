@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Waste Segregation Guide</title>
+  <link rel="stylesheet" href="/src/output.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Navigation Bar -->
+  <nav class="bg-green-600 text-white p-4 flex justify-between items-center">
+    <div class="text-xl font-bold">WasteManage</div>
+    <ul class="hidden md:flex space-x-6">
+      <li><a href="#home" class="hover:underline">Home</a></li>
+      <li><a href="#guide" class="hover:underline">Segregation Guide</a></li>
+      <li><a href="#about" class="hover:underline">About</a></li>
+      <li><a href="#contact" class="hover:underline">Contact</a></li>
+    </ul>
+    <div id="mobile-menu" class="md:hidden cursor-pointer">
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white mb-1"></span>
+      <span class="block w-6 h-0.5 bg-white"></span>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu (Hidden by Default) -->
+  <ul id="mobile-nav" class="md:hidden bg-green-600 text-white p-4 hidden">
+    <li><a href="#home" class="block py-2 hover:underline">Home</a></li>
+    <li><a href="#guide" class="block py-2 hover:underline">Segregation Guide</a></li>
+    <li><a href="#about" class="block py-2 hover:underline">About</a></li>
+    <li><a href="#contact" class="block py-2 hover:underline">Contact</a></li>
+  </ul>
+
+  <!-- Waste Segregation Guide Section -->
+  <section id="guide" class="p-6">
+    <h1 class="text-3xl font-bold text-center mb-4">Waste Segregation Guide</h1>
+    <p class="text-center text-gray-600 mb-8">Learn how to categorize your waste for efficient disposal and recycling.</p>
+
+    <!-- Dry Waste -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-semibold text-green-600 mb-4">Dry Waste</h2>
+      <p class="text-gray-600 mb-4">Includes plastics, paper, metals, and glass.</p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="openModal('plastics')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Plastics</button>
+        <button onclick="openModal('paper')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Paper</button>
+        <button onclick="openModal('metals')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Metals</button>
+        <button onclick="openModal('glass')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Glass</button>
+      </div>
+    </div>
+
+    <!-- Wet Waste -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-semibold text-green-600 mb-4">Wet Waste</h2>
+      <p class="text-gray-600 mb-4">Includes food scraps and garden waste.</p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="openModal('food-scraps')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Food Scraps</button>
+        <button onclick="openModal('garden-waste')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Garden Waste</button>
+      </div>
+    </div>
+
+    <!-- Hazardous Waste -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-semibold text-green-600 mb-4">Hazardous Waste</h2>
+      <p class="text-gray-600 mb-4">Includes e-waste, chemicals, and medical waste.</p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="openModal('e-waste')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">E-waste</button>
+        <button onclick="openModal('chemicals')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Chemicals</button>
+        <button onclick="openModal('medical-waste')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Medical Waste</button>
+      </div>
+    </div>
+
+    <!-- Special Disposal -->
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+      <h2 class="text-2xl font-semibold text-green-600 mb-4">Special Disposal</h2>
+      <p class="text-gray-600 mb-4">Includes batteries, electronics, and construction debris.</p>
+      <div class="flex flex-wrap gap-4">
+        <button onclick="openModal('batteries')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Batteries</button>
+        <button onclick="openModal('electronics')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Electronics</button>
+        <button onclick="openModal('construction-debris')" class="bg-gray-100 p-3 rounded-lg shadow-sm hover:bg-gray-200">Construction Debris</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden justify-center items-center p-4">
+    <div class="bg-white p-6 rounded-lg shadow-lg max-w-md w-full">
+      <h3 id="modal-title" class="text-2xl font-semibold text-green-600 mb-4"></h3>
+      <p id="modal-content" class="text-gray-600 mb-4"></p>
+      <button onclick="closeModal()" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">Close</button>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer id="contact" class="bg-gray-800 text-white text-center p-4">
+    <p>&copy; 2023 WasteManage. All rights reserved.</p>
+    <p>Contact us: info@wastemanage.com | +123 456 7890</p>
+  </footer>
+
+  <script>
+    // Data for each waste type
+    const wasteData = {
+      plastics: {
+        title: "Plastics",
+        content: "Plastics are synthetic materials that can be recycled. Common examples include bottles, bags, and packaging. Always clean plastics before recycling.",
+      },
+      paper: {
+        title: "Paper",
+        content: "Paper waste includes newspapers, magazines, and cardboard. Ensure paper is dry and free from food contamination before recycling.",
+      },
+      metals: {
+        title: "Metals",
+        content: "Metals like aluminum and steel are highly recyclable. Common items include cans, foil, and scrap metal.",
+      },
+      glass: {
+        title: "Glass",
+        content: "Glass bottles and jars can be recycled indefinitely. Rinse them before disposal to avoid contamination.",
+      },
+      "food-scraps": {
+        title: "Food Scraps",
+        content: "Food scraps can be composted to create nutrient-rich soil. Avoid including meat and dairy in home compost bins.",
+      },
+      "garden-waste": {
+        title: "Garden Waste",
+        content: "Garden waste includes leaves, grass clippings, and branches. These can be composted or used for mulch.",
+      },
+      "e-waste": {
+        title: "E-waste",
+        content: "E-waste includes old electronics like phones, computers, and TVs. These should be taken to specialized recycling centers.",
+      },
+      chemicals: {
+        title: "Chemicals",
+        content: "Household chemicals like cleaners and pesticides should be disposed of at hazardous waste facilities to prevent environmental harm.",
+      },
+      "medical-waste": {
+        title: "Medical Waste",
+        content: "Medical waste includes used needles and expired medications. Dispose of them at designated collection points.",
+      },
+      batteries: {
+        title: "Batteries",
+        content: "Batteries contain harmful chemicals and should be recycled at designated drop-off points.",
+      },
+      electronics: {
+        title: "Electronics",
+        content: "Old electronics should be recycled to recover valuable materials and prevent environmental pollution.",
+      },
+      "construction-debris": {
+        title: "Construction Debris",
+        content: "Construction debris includes materials like concrete, wood, and metal. These can often be recycled or reused.",
+      },
+    };
+
+    // Open modal with waste data
+    function openModal(wasteType) {
+      const modal = document.getElementById("modal");
+      const modalTitle = document.getElementById("modal-title");
+      const modalContent = document.getElementById("modal-content");
+
+      modalTitle.textContent = wasteData[wasteType].title;
+      modalContent.textContent = wasteData[wasteType].content;
+      modal.classList.remove("hidden");
+    }
+
+    // Close modal
+    function closeModal() {
+      const modal = document.getElementById("modal");
+      modal.classList.add("hidden");
+    }
+
+    // Toggle mobile menu
+    const mobileMenu = document.getElementById("mobile-menu");
+    const mobileNav = document.getElementById("mobile-nav");
+
+    mobileMenu.addEventListener("click", () => {
+      mobileNav.classList.toggle("hidden");
+    });
+  </script>
+</body>
+</html>
