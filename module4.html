@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanitation Awareness & Hygiene Practices</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-in {
+      animation: fadeIn 1s ease-out;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  
+  <section class="container mx-auto px-4 py-12 fade-in">
+    <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">🛁 Hygiene Education Hub</h2>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+ 
+
+      <div class="bg-gradient-to-br from-[#DBF3FA] to-[#B7E9F7] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105">
+        <div class="text-blue-500 text-4xl mb-4">
+          <i class="fas fa-hands-wash"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">The Importance of Hand Hygiene</h3>
+        <p class="text-gray-600 mb-6">Learn why clean hands and clean water are essential for health.</p>
+        <a href="#" class="text-blue-500 hover:text-blue-600 font-semibold">Read Article →</a>
+      </div>
+
+
+      <div class="bg-gradient-to-br from-[#D6F6D5] to-[#BFF4BE] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105">
+        <div class="text-green-500 text-4xl mb-4">
+          <i class="fas fa-toilet"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">Proper Toilet Sanitation</h3>
+        <p class="text-gray-600 mb-6">Tips for maintaining hygiene in homes and public restrooms.</p>
+        <a href="#" class="text-green-500 hover:text-green-600 font-semibold">Watch Video →</a>
+      </div>
+
+   
+      <div class="bg-gradient-to-br from-[#FFF192] to-[#FFEA61] p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow transform hover:scale-105">
+        <div class="text-yellow-500 text-4xl mb-4">
+          <i class="fas fa-spray-can"></i>
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-gray-800">DIY Natural Cleaning Solutions</h3>
+        <p class="text-gray-600 mb-6">Eco-friendly cleaning tips to reduce chemical waste.</p>
+        <a href="#" class="text-yellow-500 hover:text-yellow-600 font-semibold">Explore Recipes →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-gradient-to-r from-[#7b4397] to-[#dc2430] text-white py-16 fade-in">
+    <div class="container mx-auto px-4">
+      <h2 class="text-4xl font-bold text-center mb-8">📌 Public Restroom Hygiene Ratings</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+       
+        <div class="bg-white bg-opacity-10 p-8 rounded-2xl backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-6">Rate a Restroom</h3>
+          <form id="ratingForm">
+            <label for="restroomName" class="block mb-2">Restroom Name</label>
+            <input type="text" id="restroomName" class="w-full p-3 rounded-lg mb-4 bg-white bg-opacity-20 text-white placeholder-gray-300" placeholder="Enter restroom name" required>
+
+            <label for="rating" class="block mb-2">Rating (1-5)</label>
+            <input type="number" id="rating" class="w-full p-3 rounded-lg mb-4 bg-white bg-opacity-20 text-white placeholder-gray-300" min="1" max="5" placeholder="Enter rating" required>
+
+            <label for="review" class="block mb-2">Review</label>
+            <textarea id="review" class="w-full p-3 rounded-lg mb-6 bg-white bg-opacity-20 text-white placeholder-gray-300" placeholder="Write your review"></textarea>
+
+            <button type="submit" class="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-colors">Submit</button>
+          </form>
+        </div>
+
+ 
+        <div class="bg-white bg-opacity-10 p-8 rounded-2xl backdrop-blur-sm">
+          <h3 class="text-2xl font-bold mb-6">Recent Ratings</h3>
+          <div id="ratingsList" class="space-y-4">
+         
+            <p class="text-gray-300">No ratings yet. Be the first to review!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="container mx-auto px-4 py-16 fade-in">
+    <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">📌 Report an Unclean Area</h2>
+    <div class="bg-gradient-to-br from-[#A9F1DF] to-[#FFBBBB] p-8 rounded-2xl shadow-lg max-w-2xl mx-auto">
+      <form id="reportForm">
+        <label for="location" class="block mb-2 text-gray-800">Location</label>
+        <input type="text" id="location" class="w-full p-3 rounded-lg mb-4 bg-white bg-opacity-50 text-gray-800 placeholder-gray-500" placeholder="Enter location" required>
+
+        <label for="photo" class="block mb-2 text-gray-800">Upload Photo</label>
+        <input type="file" id="photo" class="w-full p-3 rounded-lg mb-4 bg-white bg-opacity-50 text-gray-800" accept="image/*" required>
+
+        <label for="description" class="block mb-2 text-gray-800">Description</label>
+        <textarea id="description" class="w-full p-3 rounded-lg mb-6 bg-white bg-opacity-50 text-gray-800 placeholder-gray-500" placeholder="Describe the issue"></textarea>
+
+        <button type="submit" class="bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-pink-600 transition-colors">Submit Report</button>
+      </form>
+    </div>
+  </section>
+
+  <script>
+ 
+    const ratingForm = document.getElementById("ratingForm");
+    const ratingsList = document.getElementById("ratingsList");
+
+    ratingForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const restroomName = document.getElementById("restroomName").value;
+      const rating = document.getElementById("rating").value;
+      const review = document.getElementById("review").value;
+
+ 
+      const ratingItem = document.createElement("div");
+      ratingItem.className = "bg-white bg-opacity-20 p-4 rounded-lg";
+      ratingItem.innerHTML = `
+        <p class="font-bold">${restroomName}</p>
+        <p class="text-yellow-400">Rating: ${"⭐".repeat(rating)}</p>
+        <p class="text-gray-300">${review}</p>
+      `;
+      ratingsList.prepend(ratingItem);
+
+
+      ratingForm.reset();
+    });
+
+
+    const reportForm = document.getElementById("reportForm");
+
+    reportForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const location = document.getElementById("location").value;
+      const photo = document.getElementById("photo").files[0];
+      const description = document.getElementById("description").value;
+
+      alert(`Report submitted for ${location}. Thank you for your contribution!`);
+      reportForm.reset();
+    });
+  </script>
+
+</body>
+</html>
