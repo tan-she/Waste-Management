@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clean Earth Dashboard</title>
+  <link rel="stylesheet" href="/src/output.css">
+  <style>
+    @keyframes moveBackground {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animated-bg {
+      background: linear-gradient(270deg, #4ade80, #3b82f6, #f59e0b);
+      background-size: 600% 600%;
+      animation: moveBackground 10s ease infinite;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Banner Section -->
+  <section class="animated-bg text-white py-20 text-center">
+    <h1 class="text-5xl font-bold mb-4">A Cleaner Earth Starts with You</h1>
+    <p class="text-xl">Join our movement to make the planet greener and cleaner.</p>
+  </section>
+
+  <!-- Quick Navigation Buttons -->
+  <section class="container mx-auto px-4 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Learn Segregation -->
+      <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
+        <h2 class="text-2xl font-bold mb-4">Learn Segregation</h2>
+        <p class="text-gray-600 mb-6">Interactive guide to waste segregation.</p>
+        <a href="#" class="bg-blue-500 text-white px-6 py-2 rounded-full hover:bg-blue-600 transition-colors">Get Started</a>
+      </div>
+
+      <!-- Find Disposal Centers -->
+      <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
+        <h2 class="text-2xl font-bold mb-4">Find Disposal Centers</h2>
+        <p class="text-gray-600 mb-6">Locate waste disposal centers near you.</p>
+        <a href="#" class="bg-orange-500 text-white px-6 py-2 rounded-full hover:bg-orange-600 transition-colors">Find Centers</a>
+      </div>
+
+      <!-- Join a Cleanup Drive -->
+      <div class="bg-white p-8 rounded-lg shadow-lg text-center hover:shadow-xl transition-shadow">
+        <h2 class="text-2xl font-bold mb-4">Join a Cleanup Drive</h2>
+        <p class="text-gray-600 mb-6">Participate in community cleanup drives.</p>
+        <a href="#" class="bg-pink-500 text-white px-6 py-2 rounded-full hover:bg-pink-600 transition-colors">Join Now</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Waste Stats -->
+  <section class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4">
+      <h2 class="text-3xl font-bold text-center mb-8">Live Waste Stats</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+        <!-- Total Waste Recycled -->
+        <div>
+          <p class="text-5xl font-bold" id="wasteRecycled">0</p>
+          <p class="text-gray-400">Total Waste Recycled This Month</p>
+        </div>
+
+        <!-- Active Users -->
+        <div>
+          <p class="text-5xl font-bold" id="activeUsers">0</p>
+          <p class="text-gray-400">Number of Active Users</p>
+        </div>
+
+        <!-- Successful Cleanups -->
+        <div>
+          <p class="text-5xl font-bold" id="successfulCleanups">0</p>
+          <p class="text-gray-400">Number of Successful Cleanups</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal JavaScript for Animated Counters -->
+  <script>
+    // Function to animate a counter
+    function animateCounter(elementId, finalValue, duration) {
+      let current = 0;
+      const element = document.getElementById(elementId);
+      const increment = finalValue / (duration / 10); // Increment value for smooth animation
+
+      const timer = setInterval(() => {
+        current += increment;
+        if (current >= finalValue) {
+          clearInterval(timer);
+          current = finalValue; // Ensure it stops at the final value
+        }
+        element.textContent = Math.floor(current); // Update the counter
+      }, 10); // Update every 10ms
+    }
+
+    // Start the counters when the page loads
+    animateCounter("wasteRecycled", 1234, 2000); // 1234 waste recycled
+    animateCounter("activeUsers", 5678, 2000); // 5678 active users
+    animateCounter("successfulCleanups", 89, 2000); // 89 successful cleanups
+  </script>
+
+</body>
+</html>
