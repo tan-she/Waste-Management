@@ -1,0 +1,2026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clear Earth Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-title {
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: -2px;
+            font-weight: 800;
+        }
+
+        .hero-title span {
+            margin: 0 4px;
+        }
+
+        .logo-container {
+            width: 50px;
+            height: 50px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10B981 0%, #3B82F6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+        .logo-circle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+        }
+        .recycle-arrows {
+            width: 70%;
+            height: 70%;
+            position: relative;
+            animation: spin 20s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Hero Section Styles */
+        .hero-section {
+            position: relative;
+            height: 65vh;
+            overflow: hidden;
+            margin: 100px auto 3rem;
+            max-width: 1300px;
+            border-radius: 30px;
+            padding: 0;
+            perspective: 2000px;
+        }
+
+        .slideshow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            border-radius: 30px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
+            transform-style: preserve-3d;
+            transform: translateZ(0);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            background-size: cover;
+            background-position: center;
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(0.3);
+            visibility: hidden;
+        }
+
+        .slide.active {
+            opacity: 1;
+            z-index: 2;
+            transform: scale(1);
+            visibility: visible;
+        }
+
+        .slide.prev {
+            opacity: 0;
+            z-index: 1;
+            transform: scale(1.5);
+            visibility: visible;
+        }
+
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.8) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            opacity: 0;
+            transition: all 0.5s ease;
+            transform: skewX(-20deg) translateX(-150%);
+        }
+
+        .slide.active::before {
+            opacity: 1;
+            animation: lightning 0.5s ease-out;
+        }
+
+        @keyframes lightning {
+            0% {
+                transform: skewX(-20deg) translateX(-150%);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: skewX(-20deg) translateX(150%);
+                opacity: 0;
+            }
+        }
+
+        .slide::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to bottom,
+                rgba(0, 0, 0, 0) 0%,
+                rgba(0, 0, 0, 0.4) 100%
+            );
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .slide.active::after {
+            opacity: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(238, 242, 255, 0.9), rgba(243, 232, 255, 0.9));
+            padding: 2.5rem;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(10px);
+            margin-top: 2rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transform: translateY(30px) translateZ(100px);
+            opacity: 0;
+            animation: slideUpFade 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards 0.3s;
+        }
+
+        @keyframes slideUpFade {
+            from {
+                transform: translateY(30px) translateZ(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0) translateZ(100px);
+                opacity: 1;
+            }
+        }
+
+        .slide.active h2 {
+            animation: slideInRight 0.8s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-section {
+                height: 55vh;
+                margin: 80px 1rem 2rem;
+                border-radius: 20px;
+            }
+            .slideshow-container {
+                border-radius: 20px;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fade-in-up {
+            animation: fadeInUp 1s ease-out forwards;
+        }
+
+        @keyframes spin-slow {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .animate-spin-slow {
+            animation: spin-slow 3s linear infinite;
+        }
+        .animate-bounce {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(-15%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+        }
+
+        @keyframes word-bounce {
+            0%, 100% {
+                transform: translateY(-15%);
+                animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+            }
+            50% {
+                transform: translateY(0%);
+                animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+            }
+        }
+        .animate-word-bounce {
+            animation: word-bounce 2s infinite;
+        }
+        .animate-word-bounce-delay-1 {
+            animation: word-bounce 2s infinite;
+            animation-delay: 0.3s;
+        }
+        .animate-word-bounce-delay-2 {
+            animation: word-bounce 2s infinite;
+            animation-delay: 0.6s;
+        }
+
+        .typewriter-line {
+            display: block;
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+            margin-bottom: 1rem;
+        }
+
+        .typewriter-line:nth-child(1) { animation-delay: 0.5s; }
+        .typewriter-line:nth-child(2) { animation-delay: 1.5s; }
+        .typewriter-line:nth-child(3) { animation-delay: 2.5s; }
+        .typewriter-line:nth-child(4) { animation-delay: 3.5s; }
+        .typewriter-line:nth-child(5) { animation-delay: 4.5s; }
+        .typewriter-line:nth-child(6) { animation-delay: 5.5s; }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .typewriter {
+            overflow: hidden;
+            border-right: 2px solid transparent;
+            white-space: nowrap;
+            animation: typing 1.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: #4F46E5 }
+        }
+
+        .flowchart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+        .flowchart-item {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+        }
+        .flowchart-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        .flowchart-box:hover {
+            transform: translateY(-5px);
+        }
+        .flowchart-arrow {
+            position: absolute;
+            bottom: -2rem;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .consequences-flow {
+            min-height: 600px;
+            position: relative;
+        }
+        .consequence-box {
+            max-width: 300px;
+            text-align: center;
+            position: relative;
+        }
+        .consequence-box::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -20px;
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(to right, rgba(0,0,0,0.1), currentColor);
+            transform: translateY(-50%);
+        }
+        .consequence-box::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -20px;
+            width: 20px;
+            height: 2px;
+            background: linear-gradient(to left, rgba(0,0,0,0.1), currentColor);
+            transform: translateY(-50%);
+        }
+
+        .diagram-container {
+            position: relative;
+            min-height: 480px;
+            padding: 0.5rem 2rem;
+            margin-top: 0;
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: visible;
+        }
+
+        .content-boxes {
+            margin-top: 60px;
+            position: relative;
+            z-index: 20;
+        }
+
+        .section-box {
+            position: relative;
+            z-index: 20;
+            margin: 0 auto;
+            width: 95%;
+        }
+
+        .section-box:hover {
+            transform: translateY(5px);
+        }
+
+        .title-box {
+            white-space: normal;
+            text-align: center;
+            min-height: 5rem;
+            height: 5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.75rem;
+            cursor: pointer;
+        }
+
+        .title-box:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .title-box h3 {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.25rem;
+        }
+
+        .content-list {
+            position: absolute;
+            width: 220px;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            left: 50%;
+            transform: translateX(-50%);
+            top: calc(100% - 5px);  /* Adjust to stay within container */
+            background: white;
+            border-radius: 0.5rem;
+            overflow: hidden;
+            display: none;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .section-box.active {
+            z-index: 101;  /* Higher than other boxes when active */
+        }
+
+        .section-box.active .content-list {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Add container for pop-up content */
+        .consequences-container {
+            position: relative;
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        /* Ensure pop-ups stay within the white container */
+        .consequences-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .connecting-lines {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .connecting-lines line {
+            stroke-width: 2;
+            marker-start: url(#dot);
+            marker-end: url(#dot);
+        }
+
+        .main-title {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 30;
+            padding: 0.75rem 2rem;
+        /* Position each point and its line */
+        .point-box:nth-child(1) { /* Environmental Pollution */
+            transform: translate(-50%, -50%);
+        }
+        .point-box:nth-child(1) .line {
+            left: 100%;
+            transform: rotate(-45deg);
+            width: 120px;
+        }
+
+        .point-box:nth-child(2) { /* Climate Change */
+            transform: translate(50%, -50%);
+        }
+        .point-box:nth-child(2) .line {
+            right: 100%;
+            left: auto;
+            transform: rotate(45deg);
+            width: 120px;
+        }
+
+        .point-box:nth-child(3) { /* Health Hazards */
+            transform: translateY(-50%);
+        }
+        .point-box:nth-child(3) .line {
+            right: 100%;
+            left: auto;
+            transform: rotate(0deg);
+            width: 100px;
+        }
+
+        .point-box:nth-child(4) { /* Marine Life Impact */
+            transform: translate(50%, 50%);
+        }
+        .point-box:nth-child(4) .line {
+            right: 100%;
+            left: auto;
+            transform: rotate(-45deg);
+            width: 120px;
+        }
+
+        .point-box:nth-child(5) { /* Economic Loss */
+            transform: translate(-50%, 50%);
+        }
+        .point-box:nth-child(5) .line {
+            left: 100%;
+            transform: rotate(45deg);
+            width: 120px;
+        }
+
+        .point-box:nth-child(6) { /* Resource Depletion */
+            transform: translateY(-50%);
+        }
+        .point-box:nth-child(6) .line {
+            left: 100%;
+            transform: rotate(0deg);
+            width: 100px;
+        }
+
+        /* Add these styles to ensure consistent navigation positioning */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+        
+        nav .container {
+            max-width: 1280px;
+            padding: 0 1rem;
+        }
+
+        nav .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        nav .space-x-12 > * + * {
+            margin-left: 3rem;
+        }
+
+        /* Remove any centering or justification that might affect nav items */
+        nav .flex.items-center {
+            justify-content: flex-start;
+        }
+
+        /* Remove all the complex navigation styles */
+        nav {
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .logo-container {
+            width: 50px;
+            height: 50px;
+        }
+
+        /* Reset any potential conflicting styles */
+        nav {
+            position: fixed !important;
+            width: 100% !important;
+            top: 0 !important;
+            z-index: 50 !important;
+        }
+        
+        nav > div {
+            position: relative !important;
+            height: 60px !important;
+        }
+        
+        nav a {
+            text-decoration: none !important;
+            display: inline-block !important;
+        }
+        
+        .logo-container {
+            width: 50px !important;
+            height: 50px !important;
+        }
+        
+        /* Force no wrapping on menu items */
+        nav a {
+            white-space: nowrap !important;
+        }
+
+        /* Navigation Styles */
+        .nav-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            height: 100%;
+            padding: 0 1rem;
+        }
+
+        .nav-logo {
+            position: absolute;
+            left: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-search {
+            position: absolute;
+            right: 1rem;
+        }
+
+        .nav-search input {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            width: 180px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-search input:focus {
+            width: 220px;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .logo-container {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+        }
+
+        .logo-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-circle:hover {
+            transform: scale(1.1);
+        }
+
+        .recycle-arrows {
+            width: 70%;
+            height: 70%;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .content-list img {
+            height: 120px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .content-list:hover img {
+            transform: scale(1.1);
+        }
+
+        .content-list ul {
+            padding: 0.75rem;
+        }
+
+        .content-list li {
+            padding: 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 0.375rem;
+            transition: all 0.3s ease;
+            margin-bottom: 0.375rem;
+        }
+
+        .content-list li:hover {
+            background: rgba(0, 0, 0, 0.05);
+            transform: translateX(5px);
+        }
+
+        .content-list li span.mr-2 {
+            font-size: 1.25rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .content-list li:hover span.mr-2 {
+            transform: scale(1.2);
+        }
+
+        /* Add overlay when pop-up is shown */
+        .section-box.active::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.2);
+            z-index: 9998;
+            pointer-events: none;
+        }
+
+        /* Connecting Lines */
+        .connecting-lines {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .connecting-lines line {
+            stroke-width: 3;
+            marker-start: url(#dot);
+            marker-end: url(#dot);
+        }
+
+        /* Waste Management Process Flowchart Styles */
+        .waste-process-diagram {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(to bottom right, rgba(255,255,255,0.8), rgba(249,250,251,0.8));
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        .process-node {
+            transform: translate(-50%, -50%);
+            width: 200px;
+            z-index: 10;
+        }
+
+        .icon-box {
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+        }
+
+        .icon-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+
+        .waste-bin {
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .waste-bin:hover {
+            transform: translateY(-2px);
+        }
+
+        .waste-bin::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+            border-radius: 0 0 8px 8px;
+        }
+
+        .content-boxes {
+            margin-top: 4rem;
+            grid-gap: 2rem;
+        }
+
+        .main-title {
+            padding: 1rem 3rem;
+        }
+
+        .main-title h2 {
+            font-size: 2.5rem;
+        }
+
+        .title-box {
+            min-height: 7rem;
+            height: 7rem;
+        }
+
+        .title-box span.text-2xl {
+            font-size: 3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .title-box span.text-sm {
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+
+        /* Navigation Bar Styles */
+        nav {
+            background: linear-gradient(90deg, #6366f1 0%, #ec4899 100%);
+            padding: 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 50;
+            height: 64px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-grid {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 1280px;
+            margin: 0 auto;
+            height: 100%;
+            padding: 0 1rem;
+        }
+
+        .nav-logo {
+            position: absolute;
+            left: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-search {
+            position: absolute;
+            right: 1rem;
+        }
+
+        .nav-search input {
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+            width: 180px;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .nav-search input:focus {
+            width: 220px;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+
+        .logo-container {
+            width: 40px;
+            height: 40px;
+            min-width: 40px;
+        }
+
+        .logo-circle {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1 0%, #ec4899 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .logo-circle:hover {
+            transform: scale(1.1);
+        }
+
+        .recycle-arrows {
+            width: 70%;
+            height: 70%;
+            animation: spin 20s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-b from-indigo-50 to-purple-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white fixed w-full top-0 z-50 shadow-lg" style="height: 64px;">
+        <div class="container mx-auto h-full flex items-center justify-center relative px-4">
+            <!-- Logo (Left) -->
+            <div class="absolute left-4">
+                <a href="index.html">
+                    <div class="logo-container">
+                        <div class="logo-circle">
+                            <svg class="recycle-arrows" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- First Arrow -->
+                                <path d="M21 10C21 7.17157 19.9464 4.45867 18.0711 2.58337C16.1957 0.708074 13.4828 -0.345703 10.6544 -0.345703" 
+                                    stroke="white" stroke-width="2" stroke-linecap="round"
+                                    transform="rotate(0 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="0 12 12"
+                                        to="120 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                                <!-- Arrow Head 1 -->
+                                <path d="M10.6544 -0.345703L13.6544 2.65429L7.6544 2.65429L10.6544 -0.345703Z" 
+                                    fill="white"
+                                    transform="rotate(0 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="0 12 12"
+                                        to="120 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                                <!-- Second Arrow -->
+                                <path d="M21 10C21 7.17157 19.9464 4.45867 18.0711 2.58337C16.1957 0.708074 13.4828 -0.345703 10.6544 -0.345703" 
+                                    stroke="white" stroke-width="2" stroke-linecap="round"
+                                    transform="rotate(120 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="120 12 12"
+                                        to="240 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                                <!-- Arrow Head 2 -->
+                                <path d="M10.6544 -0.345703L13.6544 2.65429L7.6544 2.65429L10.6544 -0.345703Z" 
+                                    fill="white"
+                                    transform="rotate(120 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="120 12 12"
+                                        to="240 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                                <!-- Third Arrow -->
+                                <path d="M21 10C21 7.17157 19.9464 4.45867 18.0711 2.58337C16.1957 0.708074 13.4828 -0.345703 10.6544 -0.345703" 
+                                    stroke="white" stroke-width="2" stroke-linecap="round"
+                                    transform="rotate(240 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="240 12 12"
+                                        to="360 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                                <!-- Arrow Head 3 -->
+                                <path d="M10.6544 -0.345703L13.6544 2.65429L7.6544 2.65429L10.6544 -0.345703Z" 
+                                    fill="white"
+                                    transform="rotate(240 12 12)">
+                                    <animateTransform
+                                        attributeName="transform"
+                                        type="rotate"
+                                        from="240 12 12"
+                                        to="360 12 12"
+                                        dur="3s"
+                                        repeatCount="indefinite"/>
+                                </path>
+                            </svg>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <!-- Centered Navigation Links -->
+            <div class="flex items-center justify-center space-x-8">
+                <a href="index.html" class="text-white hover:text-indigo-200 transition-colors duration-300 font-medium">Home</a>
+                <a href="learn-segregation.html" class="text-white hover:text-indigo-200 transition-colors duration-300 font-medium">Learn Segregation</a>
+                <a href="ai-identifier.html" class="text-white hover:text-indigo-200 transition-colors duration-300 font-medium">AI Identifier</a>
+                <a href="disposal-centers.html" class="text-white hover:text-indigo-200 transition-colors duration-300 font-medium">Find Disposal Centers</a>
+                <a href="contact.html" class="text-white hover:text-indigo-200 transition-colors duration-300 font-medium">Contact Us</a>
+            </div>
+
+            <!-- Search (Right) -->
+            <div class="absolute right-4">
+                <div class="relative">
+                    <input type="text" 
+                           placeholder="Search..." 
+                           class="bg-white/10 text-white text-sm placeholder-white/60 rounded-lg px-3 py-1.5 w-36 focus:w-44 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4">
+        <!-- Hero Section -->
+        <section class="hero-section flex items-center justify-center">
+            <div class="slideshow-container">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1532187643603-ba119ca4109e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1595278069441-2cf29f8005a4?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1604187351574-c75ca79f5807?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1528323273322-d81458248d40?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1605600659908-0ef719419d41?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');">
+                </div>
+            </div>
+            <div class="hero-content text-center animate-fade-in-up hover:shadow-2xl transition-shadow duration-300">
+                <h1 class="hero-title text-6xl md:text-7xl mb-6 relative group">
+                    <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 animate-word-bounce drop-shadow-lg">Clear</span>
+                    <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 animate-word-bounce-delay-1 drop-shadow-lg">Earth</span>
+                    <span class="inline-block text-transparent bg-clip-text bg-gradient-to-r from-pink-600 via-indigo-600 to-purple-600 animate-word-bounce-delay-2 drop-shadow-lg">Dashboard</span>
+                    <span class="inline-block ml-2 animate-bounce text-6xl">🌍</span>
+                    <span class="inline-block ml-2 animate-spin-slow text-6xl">♻️</span>
+                </h1>
+                <p class="text-xl font-semibold mb-12 max-w-2xl mx-auto animate-pulse tracking-wide text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-orange-400 to-amber-500">Your Smart Solution for Waste Management and Environmental Sustainability</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Quote Section -->
+    <div class="container mx-auto px-4 mt-8 mb-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="bg-gradient-to-r from-indigo-100 via-purple-100 to-pink-100 p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <p class="text-3xl font-bold text-center text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 animate-pulse">
+                    🌱 A Clear Earth Starts With You 🌍
+                </p>
+                <div class="flex justify-center mt-4 space-x-4">
+                    <span class="text-4xl animate-bounce">♻️</span>
+                    <span class="text-4xl animate-spin-slow">🌿</span>
+                    <span class="text-4xl animate-bounce" style="animation-delay: 0.2s">🌳</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Why Waste Management Section -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 typewriter relative inline-block">
+                        Why Waste Management?
+                        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600"></div>
+                    </h2>
+                </div>
+                <p class="text-lg text-gray-700 leading-relaxed">
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-indigo-600">🌱</span>
+                        <span class="text-indigo-600">Waste management is crucial for preserving our planet's health and ensuring a sustainable future.</span>
+                    </span>
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-purple-600">♻️</span>
+                        <span class="text-purple-600">Every year, millions of tons of waste end up in landfills and oceans, causing severe environmental damage and threatening biodiversity.</span>
+                    </span>
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-pink-600">🌍</span>
+                        <span class="text-pink-600">Proper waste management helps reduce pollution, conserve natural resources, and minimize greenhouse gas emissions.</span>
+                    </span>
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-green-600">🌿</span>
+                        <span class="text-green-600">By adopting responsible waste disposal practices, we can protect ecosystems, improve public health, and create a cleaner, greener world for future generations.</span>
+                    </span>
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-blue-600">💧</span>
+                        <span class="text-blue-600">Remember, every small action counts - from recycling a single bottle to properly segregating waste at home.</span>
+                    </span>
+                    <span class="typewriter-line flex items-start">
+                        <span class="text-2xl mr-2 text-amber-600">🌟</span>
+                        <span class="text-amber-600">Together, we can make a significant impact on our planet's well-being.</span>
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Consequences of Poor Waste Management Section -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 typewriter relative inline-block">
+                        Consequences of Poor Waste Management
+                        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600"></div>
+                    </h2>
+                </div>
+
+                <div class="consequences-container">
+                    <div class="consequences-content">
+                        <div class="diagram-container">
+                            <!-- Main Title Box -->
+                            <div class="main-title bg-gradient-to-r from-sky-400 to-pink-400 text-white rounded-lg">
+                                <h2 class="text-2xl font-bold text-center">Consequences</h2>
+                            </div>
+
+                            <!-- Connecting Arrows -->
+                            <svg class="absolute top-24 w-full h-8 -z-10">
+                                <defs>
+                                    <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                                    refX="9" refY="3.5" orient="auto">
+                                        <polygon points="0 0, 10 3.5, 0 7" fill="#4B5563"/>
+                                    </marker>
+                                </defs>
+                            </svg>
+
+                            <!-- Content Boxes -->
+                            <div class="content-boxes grid grid-cols-5 gap-4 mt-16">
+                                <!-- Environmental Section -->
+                                <div class="section-box cursor-pointer" onclick="toggleDetails(this)">
+                                    <div class="title-box bg-emerald-100 p-3 rounded-lg border-2 border-emerald-500">
+                                        <h3 class="text-emerald-700 font-semibold text-lg flex flex-col items-center justify-center">
+                                            <span class="text-2xl mb-1">🌍</span>
+                                            <span class="text-center text-sm leading-tight">Environmental<br>Pollution</span>
+                                        </h3>
+                                    </div>
+                                    <div class="content-list bg-white rounded-lg border-2 border-emerald-500 p-4 mt-2 hidden">
+                                        <img src="https://images.unsplash.com/photo-1611284446314-60a58ac0deb9" alt="Environmental Pollution" class="w-full h-32 object-cover rounded-lg mb-3">
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center text-emerald-600">
+                                                <span class="mr-2">•</span>
+                                                Air Pollution
+                                            </li>
+                                            <li class="flex items-center text-emerald-600">
+                                                <span class="mr-2">•</span>
+                                                Water Pollution
+                                            </li>
+                                            <li class="flex items-center text-emerald-600">
+                                                <span class="mr-2">•</span>
+                                                Soil Damage
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Global Warming Section -->
+                                <div class="section-box cursor-pointer" onclick="toggleDetails(this)">
+                                    <div class="title-box bg-red-100 p-3 rounded-lg border-2 border-red-500">
+                                        <h3 class="text-red-700 font-semibold text-lg flex flex-col items-center justify-center">
+                                            <span class="text-2xl mb-1">🌡️</span>
+                                            <span class="text-center text-sm leading-tight">Global<br>Warming</span>
+                                        </h3>
+                                    </div>
+                                    <div class="content-list bg-white rounded-lg border-2 border-red-500 p-4 mt-2 hidden">
+                                        <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05" alt="Global Warming" class="w-full h-32 object-cover rounded-lg mb-3">
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center text-red-600">
+                                                <span class="mr-2">•</span>
+                                                Greenhouse Gases
+                                            </li>
+                                            <li class="flex items-center text-red-600">
+                                                <span class="mr-2">•</span>
+                                                Ice Melting
+                                            </li>
+                                            <li class="flex items-center text-red-600">
+                                                <span class="mr-2">•</span>
+                                                Temperature Rise
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Health Section -->
+                                <div class="section-box cursor-pointer" onclick="toggleDetails(this)">
+                                    <div class="title-box bg-blue-100 p-3 rounded-lg border-2 border-blue-500">
+                                        <h3 class="text-blue-700 font-semibold text-lg flex flex-col items-center justify-center">
+                                            <span class="text-2xl mb-1">🏥</span>
+                                            <span class="text-center text-sm leading-tight">Health<br>Issues</span>
+                                        </h3>
+                                    </div>
+                                    <div class="content-list bg-white rounded-lg border-2 border-blue-500 p-4 mt-2 hidden">
+                                        <img src="https://images.unsplash.com/photo-1583324113626-70df0f4deaab" alt="Health Issues" class="w-full h-32 object-cover rounded-lg mb-3">
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center text-blue-600">
+                                                <span class="mr-2">•</span>
+                                                Diseases
+                                            </li>
+                                            <li class="flex items-center text-blue-600">
+                                                <span class="mr-2">•</span>
+                                                Respiratory Issues
+                                            </li>
+                                            <li class="flex items-center text-blue-600">
+                                                <span class="mr-2">•</span>
+                                                Mental Health
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Marine Life Section -->
+                                <div class="section-box cursor-pointer" onclick="toggleDetails(this)">
+                                    <div class="title-box bg-cyan-100 p-3 rounded-lg border-2 border-cyan-500">
+                                        <h3 class="text-cyan-700 font-semibold text-lg flex flex-col items-center justify-center">
+                                            <span class="text-2xl mb-1">🐋</span>
+                                            <span class="text-center text-sm leading-tight">Marine<br>Life</span>
+                                        </h3>
+                                    </div>
+                                    <div class="content-list bg-white rounded-lg border-2 border-cyan-500 p-4 mt-2 hidden">
+                                        <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7" alt="Marine Life" class="w-full h-32 object-cover rounded-lg mb-3">
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center text-cyan-600">
+                                                <span class="mr-2">•</span>
+                                                Ocean Pollution
+                                            </li>
+                                            <li class="flex items-center text-cyan-600">
+                                                <span class="mr-2">•</span>
+                                                Species Loss
+                                            </li>
+                                            <li class="flex items-center text-cyan-600">
+                                                <span class="mr-2">•</span>
+                                                Habitat Damage
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Economic Section -->
+                                <div class="section-box cursor-pointer" onclick="toggleDetails(this)">
+                                    <div class="title-box bg-amber-100 p-3 rounded-lg border-2 border-amber-500">
+                                        <h3 class="text-amber-700 font-semibold text-lg flex flex-col items-center justify-center">
+                                            <span class="text-2xl mb-1">💰</span>
+                                            <span class="text-center text-sm leading-tight">Economic<br>Impact</span>
+                                        </h3>
+                                    </div>
+                                    <div class="content-list bg-white rounded-lg border-2 border-amber-500 p-4 mt-2 hidden">
+                                        <img src="https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9" alt="Economic Impact" class="w-full h-32 object-cover rounded-lg mb-3">
+                                        <ul class="space-y-3">
+                                            <li class="flex items-center text-amber-600">
+                                                <span class="mr-2">•</span>
+                                                Resource Loss
+                                            </li>
+                                            <li class="flex items-center text-amber-600">
+                                                <span class="mr-2">•</span>
+                                                Tourism Impact
+                                            </li>
+                                            <li class="flex items-center text-amber-600">
+                                                <span class="mr-2">•</span>
+                                                Healthcare Costs
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <script>
+                    function toggleDetails(element) {
+                        const details = element.querySelector('.content-list');
+                        const allDetails = document.querySelectorAll('.content-list');
+                        const allSectionBoxes = document.querySelectorAll('.section-box');
+                        
+                        // Remove active class from all section boxes
+                        allSectionBoxes.forEach(box => {
+                            box.classList.remove('active');
+                        });
+                        
+                        // Hide all other details first
+                        allDetails.forEach(detail => {
+                            detail.classList.remove('show');
+                        });
+                        
+                        // Toggle current details
+                        details.classList.toggle('show');
+                        if (details.classList.contains('show')) {
+                            element.classList.add('active');
+                        }
+                    }
+
+                    // Close details when clicking outside
+                    document.addEventListener('click', function(event) {
+                        if (!event.target.closest('.section-box')) {
+                            document.querySelectorAll('.content-list').forEach(detail => {
+                                detail.classList.remove('show');
+                            });
+                            document.querySelectorAll('.section-box').forEach(box => {
+                                box.classList.remove('active');
+                            });
+                        }
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+
+    <!-- Solutions Section -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 typewriter relative inline-block">
+                        Solutions for Better Waste Management
+                        <div class="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600"></div>
+                    </h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Solution 1: Waste Segregation -->
+                    <div class="solution-card bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">🗑️</span>
+                            <h3 class="text-2xl font-bold text-emerald-700 mb-3">Waste Segregation</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Learn the importance of proper waste segregation and how to implement it at home.
+                                <br><br>
+                                • Separate dry and wet waste effectively
+                                <br>
+                                • Identify recyclable materials
+                                <br>
+                                • Proper disposal of hazardous waste
+                                <br>
+                                • Create a sustainable waste management system
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=6jQ7y_qQYUA" target="_blank" 
+                               class="inline-flex items-center px-8 py-4 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Solution 2: Composting -->
+                    <div class="solution-card bg-gradient-to-br from-amber-50 to-orange-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">🌱</span>
+                            <h3 class="text-2xl font-bold text-amber-700 mb-3">Composting at Home</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Discover how to turn your kitchen waste into nutrient-rich compost for your garden.
+                                <br><br>
+                                • Set up a compost bin easily
+                                <br>
+                                • Identify compostable materials
+                                <br>
+                                • Maintain proper compost conditions
+                                <br>
+                                • Use compost for gardening
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=Q5s4n9r-JGU" target="_blank"
+                               class="inline-flex items-center px-8 py-4 bg-amber-600 text-white rounded-lg hover:bg-amber-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Solution 3: Recycling -->
+                    <div class="solution-card bg-gradient-to-br from-blue-50 to-indigo-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">♻️</span>
+                            <h3 class="text-2xl font-bold text-blue-700 mb-3">Smart Recycling</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Learn innovative ways to recycle common household items and reduce waste.
+                                <br><br>
+                                • Creative reuse of materials
+                                <br>
+                                • Proper recycling techniques
+                                <br>
+                                • Upcycling projects
+                                <br>
+                                • Reduce single-use items
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=OasbYWF4_S8" target="_blank"
+                               class="inline-flex items-center px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Solution 4: Zero Waste Lifestyle -->
+                    <div class="solution-card bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">🌍</span>
+                            <h3 class="text-2xl font-bold text-purple-700 mb-3">Zero Waste Lifestyle</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Adopt a zero-waste lifestyle and reduce your environmental footprint.
+                                <br><br>
+                                • Use reusable containers
+                                <br>
+                                • Buy in bulk
+                                <br>
+                                • DIY cleaning products
+                                <br>
+                                • Sustainable shopping habits
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=6jQ7y_qQYUA" target="_blank"
+                               class="inline-flex items-center px-8 py-4 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Solution 5: Eco-friendly Products -->
+                    <div class="solution-card bg-gradient-to-br from-rose-50 to-pink-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">🛍️</span>
+                            <h3 class="text-2xl font-bold text-rose-700 mb-3">Eco-friendly Products</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Discover sustainable alternatives to everyday products.
+                                <br><br>
+                                • Biodegradable materials
+                                <br>
+                                • Energy-efficient appliances
+                                <br>
+                                • Sustainable packaging
+                                <br>
+                                • Green cleaning products
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=Q5s4n9r-JGU" target="_blank"
+                               class="inline-flex items-center px-8 py-4 bg-rose-600 text-white rounded-lg hover:bg-rose-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Solution 6: Community Initiatives -->
+                    <div class="solution-card bg-gradient-to-br from-cyan-50 to-teal-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="text-center mb-4">
+                            <span class="text-5xl mb-4 block">👥</span>
+                            <h3 class="text-2xl font-bold text-cyan-700 mb-3">Community Initiatives</h3>
+                            <p class="text-lg text-gray-600 mb-6">
+                                Get involved in local waste management initiatives.
+                                <br><br>
+                                • Community clean-up drives
+                                <br>
+                                • Recycling programs
+                                <br>
+                                • Educational workshops
+                                <br>
+                                • Sustainable events
+                            </p>
+                            <a href="https://www.youtube.com/watch?v=OasbYWF4_S8" target="_blank"
+                               class="inline-flex items-center px-8 py-4 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors duration-300 text-lg">
+                                <span class="mr-2">▶️</span>
+                                Watch Video
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <style>
+                    .solution-card {
+                        transition: transform 0.3s ease;
+                    }
+                    .solution-card:hover {
+                        transform: translateY(-5px);
+                    }
+                    .solution-card a {
+                        transition: all 0.3s ease;
+                    }
+                    .solution-card a:hover {
+                        transform: scale(1.05);
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+
+    <!-- Waste Management Process Flowchart -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="waste-management-flow bg-white p-8 rounded-xl shadow-lg">
+                <h2 class="text-3xl font-bold mb-12 text-center text-transparent bg-clip-text bg-gradient-to-r from-green-600 to-teal-600">
+                    Waste Management Process
+                </h2>
+                <div class="flow-container relative">
+                    <div class="grid grid-cols-7 gap-4">
+                        <!-- Source -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-gray-50 to-gray-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🏠</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">SOURCE</h3>
+                            <p class="text-sm text-gray-600">Household & Industrial Waste</p>
+                        </div>
+
+                        <!-- Primary Sorting -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-green-50 to-emerald-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">♻️</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">PRIMARY SORTING</h3>
+                            <p class="text-sm text-gray-600">Segregation at Source</p>
+                        </div>
+
+                        <!-- Collection -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-blue-50 to-sky-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🚛</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">COLLECTION</h3>
+                            <p class="text-sm text-gray-600">Transportation & Storage</p>
+                        </div>
+
+                        <!-- Secondary Sorting -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-purple-50 to-violet-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🏭</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">SECONDARY SORTING</h3>
+                            <p class="text-sm text-gray-600">Material Recovery Facility</p>
+                        </div>
+
+                        <!-- Composting -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-yellow-50 to-amber-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🌱</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">COMPOSTING</h3>
+                            <p class="text-sm text-gray-600">Organic Waste Processing</p>
+                        </div>
+
+                        <!-- Recycling -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-cyan-50 to-teal-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🔄</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">RECYCLING</h3>
+                            <p class="text-sm text-gray-600">Material Recovery</p>
+                        </div>
+
+                        <!-- Final Disposal -->
+                        <div class="process-step text-center">
+                            <div class="icon-box bg-gradient-to-br from-red-50 to-rose-100 p-4 rounded-lg shadow-md mb-3">
+                                <span class="text-4xl">🗑️</span>
+                            </div>
+                            <h3 class="font-semibold text-gray-800">FINAL DISPOSAL</h3>
+                            <p class="text-sm text-gray-600">Non-recyclable Waste</p>
+                        </div>
+                    </div>
+
+                    <!-- Connecting Arrows -->
+                    <svg class="absolute top-24 w-full h-8 -z-10">
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" 
+                            refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#4B5563"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Latest News Section -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                        Latest News & Updates
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Stay informed about the latest developments in waste management and environmental sustainability.
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- News Card 1 -->
+                    <div class="news-card bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="mb-4">
+                            <span class="text-sm text-green-600 font-semibold">March 15, 2024</span>
+                            <h3 class="text-xl font-bold text-green-800 mt-2">New Recycling Technology Breakthrough</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Scientists have developed a revolutionary method to recycle previously non-recyclable plastics, potentially reducing landfill waste by 40%.
+                        </p>
+                        <a href="#" class="text-green-600 font-semibold hover:text-green-700 flex items-center" onclick="showNewsPopup(event, 1)">
+                            Read More
+                            <span class="ml-2">→</span>
+                        </a>
+                    </div>
+
+                    <!-- News Card 2 -->
+                    <div class="news-card bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="mb-4">
+                            <span class="text-sm text-blue-600 font-semibold">March 10, 2024</span>
+                            <h3 class="text-xl font-bold text-blue-800 mt-2">Global Waste Management Summit</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            World leaders gathered to discuss new policies and initiatives for sustainable waste management practices worldwide.
+                        </p>
+                        <a href="#" class="text-blue-600 font-semibold hover:text-blue-700 flex items-center" onclick="showNewsPopup(event, 2)">
+                            Read More
+                            <span class="ml-2">→</span>
+                        </a>
+                    </div>
+
+                    <!-- News Card 3 -->
+                    <div class="news-card bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                        <div class="mb-4">
+                            <span class="text-sm text-purple-600 font-semibold">March 5, 2024</span>
+                            <h3 class="text-xl font-bold text-purple-800 mt-2">Community Recycling Program Success</h3>
+                        </div>
+                        <p class="text-gray-600 mb-4">
+                            Local communities report a 60% increase in recycling rates after implementing new educational programs and incentives.
+                        </p>
+                        <a href="#" class="text-purple-600 font-semibold hover:text-purple-700 flex items-center" onclick="showNewsPopup(event, 3)">
+                            Read More
+                            <span class="ml-2">→</span>
+                        </a>
+                    </div>
+                </div>
+
+                <style>
+                    .news-card {
+                        transition: transform 0.3s ease;
+                    }
+                    .news-card:hover {
+                        transform: translateY(-5px);
+                    }
+                    .news-card a {
+                        transition: all 0.3s ease;
+                    }
+                    .news-card a:hover {
+                        transform: translateX(5px);
+                    }
+                </style>
+            </div>
+        </div>
+    </div>
+
+    <!-- News Popup -->
+    <div id="newsPopup" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-2xl w-full mx-4 transform transition-all duration-300 scale-0 opacity-0" id="newsPopupContent">
+            <div class="relative">
+                <button onclick="hideNewsPopup()" class="absolute top-0 right-0 text-gray-500 hover:text-gray-700">
+                    <span class="text-2xl">×</span>
+                </button>
+                <div class="news-popup-content">
+                    <div class="mb-6">
+                        <span class="text-sm text-gray-500" id="newsDate"></span>
+                        <h3 class="text-2xl font-bold text-gray-800 mt-2" id="newsTitle"></h3>
+                    </div>
+                    <div class="prose max-w-none" id="newsContent">
+                        <!-- Content will be dynamically inserted here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Let's Talk Section -->
+    <div class="px-4 mb-16">
+        <div class="mx-auto">
+            <div class="bg-white p-8 rounded-xl shadow-lg transform hover:scale-105 transition-all duration-300 hover:shadow-2xl">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600">
+                        Let's Talk About Waste Management
+                    </h2>
+                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Have questions about waste management? Want to share your ideas or get involved? We'd love to hear from you!
+                    </p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Contact Form -->
+                    <div class="bg-gradient-to-br from-indigo-50 to-purple-50 p-8 rounded-xl">
+                        <form class="space-y-6">
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-gray-700 mb-2">Your Name</label>
+                                <input type="text" id="name" name="name" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                                       placeholder="Enter your name">
+                            </div>
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
+                                <input type="email" id="email" name="email" 
+                                       class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                                       placeholder="Enter your email">
+                            </div>
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Your Message</label>
+                                <textarea id="message" name="message" rows="4" 
+                                          class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-300"
+                                          placeholder="Share your thoughts with us..."></textarea>
+                            </div>
+                            <button type="submit" 
+                                    class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105"
+                                    onclick="showMessagePopup(event)">
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+
+                    <!-- Contact Information -->
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-xl">
+                        <div class="space-y-8">
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white p-3 rounded-full shadow-lg">
+                                    <span class="text-2xl">📧</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Email Us</h3>
+                                    <p class="text-gray-600">info@clearearth.com</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white p-3 rounded-full shadow-lg">
+                                    <span class="text-2xl">📱</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Call Us</h3>
+                                    <p class="text-gray-600">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-4">
+                                <div class="bg-white p-3 rounded-full shadow-lg">
+                                    <span class="text-2xl">📍</span>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-semibold text-gray-800">Visit Us</h3>
+                                    <p class="text-gray-600">123 Green Street, Eco City</p>
+                                </div>
+                            </div>
+                            <div class="pt-4">
+                                <h3 class="text-lg font-semibold text-gray-800 mb-4">Follow Us</h3>
+                                <div class="flex space-x-4">
+                                    <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:bg-indigo-100 transition-colors duration-300">
+                                        <span class="text-2xl">📘</span>
+                                    </a>
+                                    <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:bg-blue-100 transition-colors duration-300">
+                                        <span class="text-2xl">📸</span>
+                                    </a>
+                                    <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:bg-red-100 transition-colors duration-300">
+                                        <span class="text-2xl">📺</span>
+                                    </a>
+                                    <a href="#" class="bg-white p-3 rounded-full shadow-lg hover:bg-green-100 transition-colors duration-300">
+                                        <span class="text-2xl">💬</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message Popup -->
+    <div id="messagePopup" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+        <div class="bg-black bg-opacity-50 absolute inset-0"></div>
+        <div class="bg-white rounded-xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all duration-300 scale-0 opacity-0" id="popupContent">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <span class="text-3xl">✅</span>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Message Sent!</h3>
+                <p class="text-gray-600 mb-6">Thank you for your message. We'll get back to you soon.</p>
+                <button onclick="hideMessagePopup()" 
+                        class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-6 rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-300">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // News Popup Functions
+        const newsData = {
+            1: {
+                date: "March 15, 2024",
+                title: "New Recycling Technology Breakthrough",
+                content: `
+                    <p class="mb-4">Scientists at the GreenTech Research Institute have made a groundbreaking discovery in plastic recycling technology. Their new method, called "Molecular Reconstruction," can break down previously non-recyclable plastics into their basic components.</p>
+                    <p class="mb-4">Key features of this breakthrough:</p>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Can process mixed plastic waste without pre-sorting</li>
+                        <li>Reduces energy consumption by 60% compared to traditional methods</li>
+                        <li>Produces high-quality raw materials for new plastic production</li>
+                        <li>Expected to reduce landfill waste by 40% within five years</li>
+                    </ul>
+                    <p class="mb-4">The technology is currently being tested in pilot plants across three continents, with plans for full-scale implementation by 2025.</p>
+                `
+            },
+            2: {
+                date: "March 10, 2024",
+                title: "Global Waste Management Summit",
+                content: `
+                    <p class="mb-4">The 2024 Global Waste Management Summit brought together leaders from 120 countries to address the pressing challenges of waste management and environmental sustainability.</p>
+                    <p class="mb-4">Key outcomes of the summit:</p>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>New international standards for waste reduction and recycling</li>
+                        <li>Commitment to reduce single-use plastics by 50% by 2030</li>
+                        <li>Global fund established for waste management infrastructure</li>
+                        <li>Partnerships formed for technology transfer to developing nations</li>
+                    </ul>
+                    <p class="mb-4">The summit also launched the "Zero Waste Cities" initiative, aiming to create 100 waste-free cities by 2035.</p>
+                `
+            },
+            3: {
+                date: "March 5, 2024",
+                title: "Community Recycling Program Success",
+                content: `
+                    <p class="mb-4">A comprehensive community recycling program has achieved remarkable success in its first year of implementation, with participating neighborhoods showing a 60% increase in recycling rates.</p>
+                    <p class="mb-4">Program highlights:</p>
+                    <ul class="list-disc pl-6 mb-4">
+                        <li>Smart recycling bins with real-time monitoring</li>
+                        <li>Educational workshops for all age groups</li>
+                        <li>Reward system for consistent recyclers</li>
+                        <li>Community clean-up events and competitions</li>
+                    </ul>
+                    <p class="mb-4">The program's success has inspired similar initiatives in neighboring communities, with plans to expand to the entire metropolitan area by 2025.</p>
+                `
+            }
+        };
+
+        function showNewsPopup(event, newsId) {
+            event.preventDefault();
+            const popup = document.getElementById('newsPopup');
+            const popupContent = document.getElementById('newsPopupContent');
+            const news = newsData[newsId];
+            
+            document.getElementById('newsDate').textContent = news.date;
+            document.getElementById('newsTitle').textContent = news.title;
+            document.getElementById('newsContent').innerHTML = news.content;
+            
+            popup.classList.remove('hidden');
+            setTimeout(() => {
+                popupContent.classList.remove('scale-0', 'opacity-0');
+            }, 50);
+        }
+
+        function hideNewsPopup() {
+            const popup = document.getElementById('newsPopup');
+            const popupContent = document.getElementById('newsPopupContent');
+            
+            popupContent.classList.add('scale-0', 'opacity-0');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+
+        // Close popup when clicking outside
+        document.getElementById('newsPopup').addEventListener('click', function(e) {
+            if (e.target === this) {
+                hideNewsPopup();
+            }
+        });
+
+        // Message Popup Functions
+        function showMessagePopup(event) {
+            event.preventDefault();
+            const popup = document.getElementById('messagePopup');
+            const popupContent = document.getElementById('popupContent');
+            
+            popup.classList.remove('hidden');
+            setTimeout(() => {
+                popupContent.classList.remove('scale-0', 'opacity-0');
+            }, 50);
+        }
+
+        function hideMessagePopup() {
+            const popup = document.getElementById('messagePopup');
+            const popupContent = document.getElementById('popupContent');
+            
+            popupContent.classList.add('scale-0', 'opacity-0');
+            setTimeout(() => {
+                popup.classList.add('hidden');
+            }, 300);
+        }
+
+        // Slideshow functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const slides = document.querySelectorAll('.slide');
+            let currentSlide = 0;
+            const slideCount = slides.length;
+
+            function showSlide(index) {
+                slides.forEach(slide => {
+                    slide.classList.remove('active', 'prev');
+                });
+                slides[index].classList.add('active');
+                const prevIndex = (index - 1 + slideCount) % slideCount;
+                slides[prevIndex].classList.add('prev');
+            }
+
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slideCount;
+                showSlide(currentSlide);
+            }
+
+            showSlide(currentSlide);
+            setInterval(nextSlide, 1000);
+        });
+
+        function showSearchDropdown() {
+            document.getElementById('searchDropdown').classList.remove('hidden');
+        }
+
+        function hideSearchDropdown() {
+            setTimeout(() => {
+                document.getElementById('searchDropdown').classList.add('hidden');
+            }, 200);
+        }
+
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            console.log('Searching for:', searchTerm);
+        });
+    </script>
+</body>
+</html> 

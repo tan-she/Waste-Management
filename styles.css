@@ -1,0 +1,40 @@
+/* Custom styles */
+body {
+    font-family: 'Inter', sans-serif;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Navigation bar hover effects */
+nav a {
+    transition: all 0.3s ease;
+}
+
+/* Card hover effects */
+.bg-white {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bg-white:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Search bar focus effect */
+input:focus {
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+}
+
+/* Mobile menu styles */
+@media (max-width: 768px) {
+    .hidden {
+        display: none;
+    }
+    
+    .mobile-menu {
+        display: block;
+    }
+} 
